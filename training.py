@@ -2,44 +2,50 @@ import get_data
 import os
 import subprocess
 from accelerate.utils import write_basic_config
+
 # from accelerate import Accelerator
 
 write_basic_config()
 
 model_name = "stabilityai/stable-diffusion-xl-base-1.0"  # Replace with your model name
-dataset_path = get_data.create_dataset(channel_url="https://www.youtube.com/@Fireship", max_results=5)
+dataset_path = get_data.create_dataset(
+    channel_url="https://www.youtube.com/@Fireship", max_results=5
+)
 
 
 training_args = {
-    'pretrained_model_name_or_path': model_name,
-    'train_data_dir': dataset_path,
-    'validation_epochs': 0,
-    'num_train_epochs': 10,
-    'image_column': 'file_name',
-    'output_dir': 'finetunes',
+    "pretrained_model_name_or_path": model_name,
+    "dataset_name": "imagefolder",
+    "train_data_dir": dataset_path,
+    "validation_epochs": 0,
+    "num_train_epochs": 10,
+    "image_column": "file_name",
+    "output_dir": "finetunes",
+    "train_batch_size": 1,
 }
 
 # accel = Accelerator(mixed_precision='fp16')
+
 
 def convert_training_args_to_command_line_args(training_args):
     command_line_args = []
     for key, value in training_args.items():
         if isinstance(value, bool):
-            value = 'true' if value else 'false'
-        command_line_args.append(f'--{key}={value}')
+            value = "true" if value else "false"
+        command_line_args.append(f"--{key}={value}")
     return command_line_args
+
 
 # I FUCKING HATE THIS
 command_line_args = convert_training_args_to_command_line_args(training_args)
-command = ['accelerate',
-            'launch',
-            "--mixed_precision=fp16",
-            './diffusers/examples/text_to_image/train_text_to_image_lora_sdxl.py', 
-        ] + command_line_args
+command = [
+    "accelerate",
+    "launch",
+    "--mixed_precision=fp8",
+    "./diffusers/examples/text_to_image/train_text_to_image_lora_sdxl.py",
+] + command_line_args
 
 subprocess.run(command)
-
-
 
 
 # from diffusers import StableDiffusionXLPipeline
