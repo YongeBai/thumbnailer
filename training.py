@@ -15,7 +15,7 @@ training_args = {
     'train_data_dir': dataset_path,
     'validation_epochs': 0,
     'num_train_epochs': 10,
-    'image_column': 'file_name'
+    'image_column': 'file_name',
     'output_dir': 'finetunes',
 }
 
@@ -36,7 +36,6 @@ command = ['accelerate',
             "--mixed_precision=fp16",
             './diffusers/examples/text_to_image/train_text_to_image_lora_sdxl.py', 
         ] + command_line_args
-print(f"\n\n{command}\n\n")
 
 subprocess.run(command)
 
