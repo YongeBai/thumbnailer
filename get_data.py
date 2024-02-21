@@ -45,6 +45,7 @@ def load_thumbnail(thumbnail_url):
     return image
 
 
+#may need to change file_name to image https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image_lora_sdxl.py
 def create_dataset(channel_url, max_results=5):
     # title_thumbnail_pairs = get_title_thumbnail_pairs(channel_url, max_results)
     title_thumbnail_pairs = [('https://i.ytimg.com/vi/tWP6z0hvw1M/hqdefault.jpg', 'OpenAI shocks the world yet again… Sora first look'), ('https://i.ytimg.com/vi/DuqLkG75BE8/hqdefault.jpg', 'Zuck’s brutal takedown of Apple Vision Pro'), ('https://i.ytimg.com/vi/X8LglXSG53A/hqdefault.jpg', 'how god programmed birds probably'), ('https://i.ytimg.com/vi/4Wa5DivljOM/hqdefault.jpg', "this is why you're addicted to cloud computing"), ('https://i.ytimg.com/vi/ucd63nIZZ60/hqdefault.jpg', 'Google actually beat GPT-4 this time? Gemini Ultra released')]
