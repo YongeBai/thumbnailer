@@ -46,13 +46,11 @@ def get_title_thumbnail_pairs(channel_url, max_results=5):
         video_data = video_response.json()
 
         duration = video_data["items"][0]["contentDetails"]["duration"]
-        duration_minutes = int(duration.split("PT")[1].split("M")[0])
-        if (
-            duration_minutes >= 1
-        ): 
-            title = item["snippet"]["title"]
-            thumbnail = item["snippet"]["thumbnails"]["maxres"]["url"]
-            title_thumbnail_pairs.append((thumbnail, title))
+        if "M" not in duration:
+            continue
+        title = item["snippet"]["title"]
+        thumbnail = item["snippet"]["thumbnails"]["maxres"]["url"]
+        title_thumbnail_pairs.append((thumbnail, title))
 
     return title_thumbnail_pairs
 
@@ -66,7 +64,7 @@ def load_thumbnail(thumbnail_url):
 
 
 def create_dataset(channel_url, max_results=5):
-    title_thumbnail_pairs = get_title_thumbnail_pairs(channel_url, max_results)
+    # title_thumbnail_pairs = get_title_thumbnail_pairs(channel_url, max_results)
     title_thumbnail_pairs = [
         (
             "https://i.ytimg.com/vi/tWP6z0hvw1M/hqdefault.jpg",

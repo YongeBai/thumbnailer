@@ -7,7 +7,7 @@ from accelerate.utils import write_basic_config
 
 write_basic_config()
 
-model_name = "stabilityai/stable-diffusion-xl-base-1.0"  # Replace with your model name
+model_name = "stabilityai/stable-diffusion-xl-base-1.0" 
 dataset_path = get_data.create_dataset(
     channel_url="https://www.youtube.com/@Fireship", max_results=5
 )
@@ -22,6 +22,7 @@ training_args = {
     "image_column": "file_name",
     "output_dir": "finetunes",
     "train_batch_size": 1,
+    "mixed_precision": "fp16",
 }
 
 # accel = Accelerator(mixed_precision='fp16')
@@ -41,7 +42,6 @@ command_line_args = convert_training_args_to_command_line_args(training_args)
 command = [
     "accelerate",
     "launch",
-    "--mixed_precision=fp8",
     "./diffusers/examples/text_to_image/train_text_to_image_lora_sdxl.py",
 ] + command_line_args
 
